@@ -56,8 +56,20 @@ module MongodbLogger
         msg = logging_colorized? ? message.to_s.gsub(/(\e(\[([\d;]*[mz]?))?)?/, '').strip : message
         @mongo_record[:messages][LOG_LEVEL_SYM[severity]] << msg
       end
-      # may modify the original message
-      disable_file_logging? ? message : (@level ? super : message)
+
+      if disable_file_logging?
+        # check MongoDb connection and set default logger if it's failed
+        begin
+          @mongo_adapter.collection.count
+        rescue
+          Rails.logger= ::Logger.new("#{Rails.root}/log/#{Rails.env}.log")
+          @level ? super : message
+          return
+        end
+        message
+       else
+         @level ? super : message
+       end
     end
 
     def mongoize(options = {})

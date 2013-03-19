@@ -8,9 +8,5 @@ module MongodbLogger
       Rails.logger = config.logger = create_logger(app_config)
     end
 
-    rake_tasks do
-      load File.expand_path(File.join(File.dirname(__FILE__), "..", "..", "tasks", "mongodb_logger.rake"))
-    end
-
   end
 end

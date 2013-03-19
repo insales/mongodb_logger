@@ -1,5 +1,0 @@
-require 'mongodb_logger/server/helpers/view_helpers'
-require 'mongodb_logger/server/helpers/partials'
-require 'mongodb_logger/server/helpers/content_for'
-require 'mongodb_logger/server/helpers/sprokets'
-require 'mongodb_logger/server/helpers/mustache_helpers'

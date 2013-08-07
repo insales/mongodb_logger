@@ -7,6 +7,7 @@ require 'mongodb_logger/engine' if defined?(Rails::Engine)
 require 'mongodb_logger/tagged_logger' if defined?(ActiveSupport::TaggedLogging)
 require 'mongodb_logger/rack_middleware'
 require 'mongodb_logger/version'
+require 'socket'
 
 module MongodbLogger
   module Base
@@ -40,7 +41,8 @@ module MongodbLogger
         :url            => request.url,
         :params         => f_params,
         :session        => mongo_fix_session_keys(f_session),
-        :ip             => request.remote_ip
+        :ip             => request.remote_ip,
+        :hostname       => Socket.gethostname
       }) { yield }
     end
     # session keys can be with dots. It is invalid keys for BSON
